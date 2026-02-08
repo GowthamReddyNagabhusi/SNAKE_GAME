@@ -16,13 +16,31 @@ endif()
 # Include raylib
 if(EXISTS ${RAYLIB_PATH}/src/raylib.h)
     include_directories(${RAYLIB_PATH}/src)
-    add_subdirectory(${RAYLIB_PATH})
-    link_libraries(raylib)
+    # Check if raylib CMakeLists.txt exists
+    if(EXISTS ${RAYLIB_PATH}/CMakeLists.txt)
+        add_subdirectory(${RAYLIB_PATH})
+        target_link_libraries(${PROJECT_NAME} raylib)
+    else()
+        # If raylib is pre-built, just link it
+        message(STATUS "Linking to pre-built raylib")
+        if(WIN32)
+            link_directories(${RAYLIB_PATH}/lib)
+            target_link_libraries(${PROJECT_NAME} raylib)
+        else()
+            find_library(RAYLIB_LIB raylib PATHS ${RAYLIB_PATH}/lib)
+            if(RAYLIB_LIB)
+                target_link_libraries(${PROJECT_NAME} ${RAYLIB_LIB})
+            endif()
+        endif()
+    endif()
 else()
     # Try to find raylib via pkg-config or system install
     find_package(raylib QUIET)
     if(NOT raylib_FOUND)
         message(FATAL_ERROR "Raylib not found. Please install raylib or clone it into the project directory.")
+        message(FATAL_ERROR "Clone with: git clone https://github.com/raysan5/raylib.git")
+    else()
+        target_link_libraries(${PROJECT_NAME} raylib)
     endif()
 endif()
 
@@ -49,8 +67,16 @@ set(HEADERS
 # Create executable
 add_executable(${PROJECT_NAME} ${SOURCES} ${HEADERS})
 
+# Include directories
+target_include_directories(${PROJECT_NAME} PRIVATE include)
+
 # Platform-specific settings
 if(WIN32)
     target_link_libraries(${PROJECT_NAME} winmm)
 endif()
+
+# Set output directory
+set_target_properties(${PROJECT_NAME} PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}
+)
 
