@@ -1,177 +1,182 @@
-# Snake Game 🐍
+# Snake Game 🐍 - C++ DSA Demonstration
 
-A modern, GUI-based Snake game built with C++ and Raylib. Features smooth graphics, responsive controls, and a clean modular architecture.
+A simple, elegant Snake game implementation in C++ using Raylib, designed to demonstrate core C++ programming and Data Structures & Algorithms (DSA) concepts. Perfect for coding interviews and portfolio projects.
 
-## Features
+## 🎯 Project Purpose
 
-- 🎮 **Beautiful GUI**: Modern graphics using Raylib with smooth animations
-- 🎯 **Score System**: Track your score and high score
-- 🎨 **Visual Grid**: Clean grid-based gameplay with distinct colors
-- ⌨️ **Multiple Controls**: Support for both WASD and Arrow keys
-- 🔄 **Game States**: Menu, Playing, and Game Over screens
-- 🏗️ **Modular Design**: Clean, maintainable code structure
+This project showcases:
+- **C++ Fundamentals**: Object-oriented concepts, STL containers, memory management
+- **Data Structures**: `deque` (Double Ended Queue) for efficient snake body management
+- **Algorithms**: Collision detection, linear search, game loop logic
+- **GUI Programming**: Raylib integration for graphics and input handling
 
-## Requirements
+## ✨ Features
 
-- C++17 or higher
-- CMake 3.11 or higher
-- Raylib library
-- A C++ compiler (GCC, Clang, or MSVC)
+- 🎮 **Simple & Clean**: Single-file implementation (~150 lines)
+- 📚 **DSA Concepts**: Demonstrates `deque`, linear search, collision detection
+- 🎨 **Modern GUI**: Beautiful graphics using Raylib
+- ⌨️ **Responsive Controls**: WASD and Arrow key support
+- 🎯 **Score Tracking**: Real-time score and length display
+- 🔄 **Game States**: Start, play, game over with restart functionality
 
-## Installation
+## 🛠️ Requirements
 
-### Windows
+- **C++17** or higher
+- **Raylib** library (installed at `C:\raylib` on Windows)
+- **G++ compiler** (MinGW/MSYS2) or any C++ compiler
 
-1. **Install Raylib:**
+## 🚀 Quick Start
+
+### Windows (Simple Build)
+
+1. **Ensure Raylib is installed at `C:\raylib`**
+   - Download from: https://www.raylib.com/
+   - Or clone: `git clone https://github.com/raysan5/raylib.git C:\raylib`
+
+2. **Build the game:**
    ```bash
-   # Option 1: Clone raylib into project directory
-   git clone https://github.com/raysan5/raylib.git
-   
-   # Option 2: Download precompiled binaries from raylib website
-   # https://www.raylib.com/
-   ```
-
-2. **Build the project:**
-   ```bash
-   mkdir build
-   cd build
-   cmake ..
-   cmake --build .
-   ```
-
-3. **Run the game:**
-   ```bash
-   .\SnakeGame.exe
-   ```
-
-### Linux
-
-1. **Install dependencies:**
-   ```bash
-   sudo apt-get install libraylib-dev cmake build-essential
-   ```
-
-2. **Build the project:**
-   ```bash
-   mkdir build
-   cd build
-   cmake ..
-   make
+   .\build_simple.bat
    ```
 
 3. **Run the game:**
    ```bash
-   ./SnakeGame
+   .\snake_game.exe
    ```
-
-### macOS
-
-1. **Install Raylib:**
-   ```bash
-   brew install raylib
-   ```
-
-2. **Build the project:**
-   ```bash
-   mkdir build
-   cd build
-   cmake ..
-   make
-   ```
-
-3. **Run the game:**
-   ```bash
-   ./SnakeGame
-   ```
-
-## How to Play
-
-- **Movement**: Use `WASD` or `Arrow Keys` to control the snake
-- **Objective**: Eat the red food to grow and increase your score
-- **Avoid**: Don't hit the walls or your own tail
-- **Restart**: Press `SPACE` to restart after game over
-- **Quit**: Press `ESC` to exit the game
-
-## Project Structure
-
-```
-SNAKE_GAME/
-├── include/           # Header files
-│   ├── GameConfig.h   # Game constants and configuration
-│   ├── Snake.h        # Snake class definition
-│   ├── Food.h         # Food class definition
-│   ├── Renderer.h     # Rendering system
-│   ├── InputHandler.h # Input handling
-│   └── GameManager.h  # Main game logic manager
-├── src/               # Source files
-│   ├── main.cpp       # Entry point
-│   ├── Snake.cpp      # Snake implementation
-│   ├── Food.cpp       # Food implementation
-│   ├── Renderer.cpp   # Rendering implementation
-│   ├── InputHandler.cpp # Input implementation
-│   └── GameManager.cpp # Game manager implementation
-├── CMakeLists.txt     # Build configuration
-└── README.md          # This file
-```
-
-## Game Mechanics
-
-- **Grid Size**: 20x20 cells
-- **Initial Length**: 3 segments
-- **Score per Food**: 10 points
-- **Game Speed**: Adjustable via `GAME_SPEED` constant in `GameConfig.h`
-
-## Customization
-
-You can customize the game by modifying constants in `include/GameConfig.h`:
-
-- `GRID_WIDTH` / `GRID_HEIGHT`: Change grid dimensions
-- `CELL_SIZE`: Adjust cell size (affects window size)
-- `GAME_SPEED`: Change game speed (lower = faster)
-- `SCORE_PER_FOOD`: Points awarded per food
-- Colors in `GameColors` namespace
-
-## Building from Source
-
-### Using CMake (Recommended)
-
-```bash
-mkdir build
-cd build
-cmake ..
-cmake --build . --config Release
-```
 
 ### Manual Compilation
 
 ```bash
-g++ -std=c++17 src/*.cpp -I include -I raylib/src -L raylib/lib -lraylib -o SnakeGame
+g++ -std=c++17 snake_game.cpp -o snake_game.exe -I C:\raylib\include -L C:\raylib\lib -lraylib -lwinmm -lgdi32 -lopengl32
 ```
 
-## Troubleshooting
+### Linux/macOS
+
+```bash
+g++ -std=c++17 snake_game.cpp -o snake_game -lraylib -lGL -lm -lpthread -ldl -lrt -lX11
+```
+
+## 🎮 How to Play
+
+- **Movement**: `WASD` or `Arrow Keys` to control the snake
+- **Objective**: Eat red food to grow and score points
+- **Avoid**: Don't hit walls or your own tail
+- **Restart**: Press `SPACE` after game over
+- **Quit**: Press `ESC` to exit
+
+## 📚 DSA Concepts Demonstrated
+
+### 1. **Deque (Double Ended Queue)**
+```cpp
+deque<Vector2> snake;  // Efficient insertion/removal at both ends
+snake.push_front(newHead);  // O(1) - Add head
+snake.pop_back();           // O(1) - Remove tail
+```
+- **Why deque?**: Perfect for snake body - need to add at front (head) and remove from back (tail)
+- **Time Complexity**: O(1) for both operations
+- **Space Complexity**: O(n) where n is snake length
+
+### 2. **Linear Search Algorithm**
+```cpp
+// Self-collision detection
+for (const auto& segment : snake) {
+    if (segment.x == newHead.x && segment.y == newHead.y) {
+        gameOver = true;
+    }
+}
+```
+- **Time Complexity**: O(n) where n is snake length
+- **Use Case**: Checking if new head position collides with body
+
+### 3. **Collision Detection**
+- **Wall Collision**: Boundary checking (O(1))
+- **Food Collision**: Position comparison (O(1))
+- **Self Collision**: Linear search through body (O(n))
+
+### 4. **Game Loop Pattern**
+```cpp
+while (!WindowShouldClose()) {
+    ProcessInput();
+    UpdateGame();
+    Render();
+}
+```
+- Classic game development pattern
+- Separates input, logic, and rendering
+
+## 📁 Project Structure
+
+```
+SNAKE_GAME/
+├── snake_game.cpp      # Main game file (single file implementation)
+├── build_simple.bat    # Windows build script
+├── README.md           # This file
+└── (legacy files)      # Previous modular version
+```
+
+## 🔍 Code Highlights
+
+### Key C++ Features Used:
+- **STL Containers**: `deque`, `vector` concepts
+- **Namespaces**: `std` namespace usage
+- **Constants**: `const` for immutability
+- **References**: `const auto&` for efficient iteration
+- **Function Organization**: Modular functions for clarity
+
+### Algorithm Complexity:
+- **Snake Movement**: O(1) - deque operations
+- **Collision Detection**: O(n) - linear search
+- **Food Spawning**: O(n) worst case - ensures valid position
+- **Overall Game Loop**: O(n) per frame where n = snake length
+
+## 🎓 Learning Outcomes
+
+This project demonstrates:
+1. ✅ Understanding of STL containers (`deque`)
+2. ✅ Algorithm implementation (search, collision detection)
+3. ✅ Time/space complexity awareness
+4. ✅ Clean, readable code structure
+5. ✅ Game development fundamentals
+6. ✅ C++ best practices
+
+## 🐛 Troubleshooting
 
 ### Raylib Not Found
-- Ensure raylib is cloned into the project directory, or
-- Install raylib system-wide
-- Update `CMakeLists.txt` with correct raylib path
+- Ensure raylib is at `C:\raylib` (Windows)
+- Update include/library paths in build command
+- Check raylib installation: https://www.raylib.com/
 
 ### Compilation Errors
-- Ensure C++17 support is enabled
-- Check that all required headers are in the `include/` directory
-- Verify raylib is properly installed
+- Verify C++17 support: `g++ --version`
+- Check raylib paths are correct
+- Ensure all required libraries are linked
 
 ### Runtime Issues
-- On Windows, ensure required DLLs are in the same directory as the executable
-- On Linux, ensure raylib shared libraries are in your library path
+- Missing DLLs: Copy raylib DLLs to executable directory
+- Window doesn't open: Check graphics drivers
 
-## License
+## 📝 Notes for Interviews
+
+When discussing this project, highlight:
+- **Why deque?**: Explain O(1) operations for snake body management
+- **Collision Detection**: Discuss trade-offs between different approaches
+- **Code Organization**: Single file vs modular design trade-offs
+- **Performance**: O(n) collision check is acceptable for this use case
+- **Extensibility**: How you'd add features (power-ups, levels, etc.)
+
+## 🔄 Future Enhancements (Optional)
+
+- High score persistence
+- Multiple difficulty levels
+- Power-ups and obstacles
+- Multiplayer support
+- Sound effects
+
+## 📄 License
 
 This project is open source and available for educational purposes.
 
-## Contributing
-
-Feel free to submit issues, fork the repository, and create pull requests for any improvements.
-
 ---
 
-Enjoy playing! 🎮
+**Perfect for**: Coding interviews, portfolio projects, C++ learning, DSA practice
+
+Enjoy coding! 🚀
