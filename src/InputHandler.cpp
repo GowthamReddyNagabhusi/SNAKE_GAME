@@ -2,6 +2,7 @@
 #include "raylib.h"
 
 Direction InputHandler::GetDirection() {
+    // Use IsKeyPressed for single-frame detection to prevent multiple direction changes
     if (IsKeyPressed(KEY_UP) || IsKeyPressed(KEY_W)) {
         return Direction::UP;
     }

@@ -7,7 +7,7 @@ Snake::Snake() : direction(Direction::NONE), nextDirection(Direction::NONE), sho
 
 void Snake::Initialize(int startX, int startY) {
     body.clear();
-    direction = Direction::NONE;
+    direction = Direction::NONE;  // Don't move until player presses a key
     nextDirection = Direction::NONE;
     shouldGrow = false;
     
@@ -34,6 +34,7 @@ void Snake::Update() {
         }
     }
     
+    // Snake should always have a direction after initialization
     if (direction == Direction::NONE) {
         return;
     }

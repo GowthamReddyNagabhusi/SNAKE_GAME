@@ -17,16 +17,16 @@ void GameManager::Initialize() {
 
 void GameManager::Update() {
     if (state == GameState::PLAYING) {
+        // Process input for direction change (check every frame)
+        Direction inputDir = InputHandler::GetDirection();
+        if (inputDir != Direction::NONE) {
+            snake.ChangeDirection(inputDir);
+        }
+        
         float currentTime = GetTime();
         
         // Update game at fixed intervals
         if (currentTime - lastUpdateTime >= gameSpeed) {
-            // Process input for direction change
-            Direction inputDir = InputHandler::GetDirection();
-            if (inputDir != Direction::NONE) {
-                snake.ChangeDirection(inputDir);
-            }
-            
             // Update snake
             snake.Update();
             
@@ -76,10 +76,6 @@ void GameManager::Render() {
 }
 
 void GameManager::ProcessInput() {
-    if (InputHandler::IsQuitPressed()) {
-        return;
-    }
-    
     switch (state) {
         case GameState::MENU:
             if (InputHandler::IsStartPressed()) {
