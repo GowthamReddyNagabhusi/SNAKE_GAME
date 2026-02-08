@@ -5,19 +5,30 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Raylib configuration
-set(RAYLIB_PATH ${CMAKE_SOURCE_DIR}/raylib)
-
-# Download raylib if not present
-if(NOT EXISTS ${RAYLIB_PATH})
-    message(STATUS "Raylib not found. Please download raylib and place it in the project directory.")
-    message(STATUS "Or use: git clone https://github.com/raysan5/raylib.git")
+# Try system installation first (C:\raylib on Windows)
+if(WIN32 AND EXISTS "C:/raylib/include/raylib.h")
+    set(RAYLIB_PATH "C:/raylib")
+    message(STATUS "Using system raylib at: ${RAYLIB_PATH}")
+else()
+    set(RAYLIB_PATH ${CMAKE_SOURCE_DIR}/raylib)
+    if(NOT EXISTS ${RAYLIB_PATH})
+        message(STATUS "Raylib not found. Please download raylib and place it in the project directory.")
+        message(STATUS "Or use: git clone https://github.com/raysan5/raylib.git")
+    endif()
 endif()
 
 # Store raylib linking info for later
 set(RAYLIB_LINK_LIBS "")
 
 # Include raylib
-if(EXISTS ${RAYLIB_PATH}/src/raylib.h)
+if(EXISTS ${RAYLIB_PATH}/include/raylib.h)
+    # System installation (C:\raylib style)
+    include_directories(${RAYLIB_PATH}/include)
+    link_directories(${RAYLIB_PATH}/lib)
+    set(RAYLIB_LINK_LIBS raylib)
+    message(STATUS "Using raylib from: ${RAYLIB_PATH}")
+elseif(EXISTS ${RAYLIB_PATH}/src/raylib.h)
+    # Source tree installation
     include_directories(${RAYLIB_PATH}/src)
     # Check if raylib CMakeLists.txt exists
     if(EXISTS ${RAYLIB_PATH}/CMakeLists.txt)
@@ -80,7 +91,7 @@ endif()
 
 # Platform-specific settings
 if(WIN32)
-    target_link_libraries(${PROJECT_NAME} winmm)
+    target_link_libraries(${PROJECT_NAME} winmm gdi32 opengl32)
 endif()
 
 # Set output directory
